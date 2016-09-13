@@ -27,5 +27,5 @@
 *.exe
 *.out
 *.app
-/Video-Decoder.cbp
-/Video-Decoder.layout
+video_decoder
+video_decoder_test

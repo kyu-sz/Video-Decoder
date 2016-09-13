@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include test/subdir.mk
 -include src/subdir.mk
 -include subdir.mk
 -include objects.mk
@@ -38,19 +39,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: libvideo_decoder.so
+all: video_decoder_test
 
 # Tool invocations
-libvideo_decoder.so: $(OBJS) $(USER_OBJS)
+video_decoder_test: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -shared -o "libvideo_decoder.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "video_decoder_test" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(LIBRARIES)$(CC_DEPS)$(C++_DEPS)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) libvideo_decoder.so
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) video_decoder_test
 	-@echo ' '
 
 .PHONY: all clean dependents

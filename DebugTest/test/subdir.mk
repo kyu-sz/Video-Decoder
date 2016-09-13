@@ -4,20 +4,20 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/video_decoder_jni.cpp 
+../test/video_decoder_test.cpp 
 
 OBJS += \
-./src/video_decoder_jni.o 
+./test/video_decoder_test.o 
 
 CPP_DEPS += \
-./src/video_decoder_jni.d 
+./test/video_decoder_test.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-src/%.o: ../src/%.cpp
+test/%.o: ../test/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -I/usr/lib/jvm/default-java/include -I../inc -I/usr/lib/jvm/default-java/include/linux -O3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -I/usr/lib/jvm/default-java/include -I../inc -I/usr/lib/jvm/default-java/include/linux -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
