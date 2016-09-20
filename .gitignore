@@ -27,5 +27,27 @@
 *.exe
 *.out
 *.app
-video_decoder
-video_decoder_test
+/bin/
+/test_bin/
+
+# CMake intermediate files
+Makefile
+CMakeFiles/
+CMakeCache.txt
+Testing/
+install_manifest.txt
+*.cmake
+
+# Eclipse directories
+/Debug/
+/Release/
+/DebugTest/
+/ReleaseTest/
+
+# IDEA directories
+.idea
+
+# Test resources
+*.mp4
+*.h264
+*.avi
