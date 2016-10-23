@@ -43,15 +43,6 @@ int main(int argc, char *argv[]) {
   // Open the video with OpenCV.
   VideoCapture capture(video_path);
 
-//  while (true) {
-//    Mat frame;
-//    capture >> frame;
-//    if (frame.empty())
-//      break;
-//    imshow("Preview", frame);
-//    waitKey(1);
-//  }
-
   // Open the video file with VideoDecoder.
   FILE *video_file = fopen(video_path, "rb");
   if (!video_file) {
