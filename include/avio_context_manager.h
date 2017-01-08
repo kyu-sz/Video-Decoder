@@ -44,6 +44,7 @@ extern "C"
 
 #include <algorithm>
 #include <cassert>
+#include <cstdio>
 
 /**
  * Adaption to lower version of AVCodec.
@@ -77,7 +78,13 @@ class AVIOContextManager {
     if (NULL == buffer)
       throw std::bad_alloc();
 
-    ctx = avio_alloc_context(buffer, buf_size, 0, this, &AVIOContextManager::read_packet, NULL, seek);
+    ctx = avio_alloc_context(buffer,
+                             buf_size,
+                             0,
+                             this,
+                             &AVIOContextManager::read_packet,
+                             NULL,
+                             &AVIOContextManager::seek);
     if (NULL == ctx) {
       av_free(buffer);
       throw std::bad_alloc();
@@ -108,7 +115,7 @@ class AVIOContextManager {
 
     // If the position already exceeds the video's length.
     if (avio_ctx->pos >= avio_ctx->stream_len)
-      return -1;
+      return 0;
     else {
       // Count the size of data to fill into the buffer.
       // Should not exceed neither the size of buffer nor the size of rest data.

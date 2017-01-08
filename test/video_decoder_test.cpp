@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
   bool display = true;
   int frame_interval = (int) (1000 / capture.get(CV_CAP_PROP_FPS));
 
-  bool to_cut = true;
+  bool to_cut = false;
   VideoWriter writer;
   if (to_cut)
     writer.open("cut.avi",
@@ -83,21 +83,42 @@ int main(int argc, char *argv[]) {
     ret = decoder->NextFrame(vd_frame.data);
     capture >> cv_frame;
     if (ret == DECODE_NO_NEXT_FRAME) {
-      assert(cv_frame.empty());
+      if (!cv_frame.empty()) {
+        printf("OpenCV can decode more frames!\n");
+        int num_extra_frames = 0;
+        do {
+          display = true;
+          destroyWindow("VideoDecoder");
+          if (display) {
+            resize(cv_frame, canvas, Size(vd_frame.cols >> 1, vd_frame.rows >> 1));
+            imshow("OpenCV", canvas);
+            int key_pressed = waitKey(frame_interval);
+            if ((key_pressed & ((1 << 8) - 1)) == ' ') {
+              printf("Stop displaying, but continue to decode for counting frames...\n");
+              destroyWindow("OpenCV");
+              display = false;
+            }
+          }
+          ++num_extra_frames;
+          capture >> cv_frame;
+        } while (!cv_frame.empty());
+        printf("OpenCV has decoded %d more frames!\n", num_extra_frames);
+      }
       break;
     }
     assert(ret == DECODE_SUCCESS);
     assert(!vd_frame.empty());
-    if (display && vd_frame_cnt >= 0) {
+    if (display) {
       resize(vd_frame, canvas, Size(vd_frame.cols >> 1, vd_frame.rows >> 1));
       imshow("VideoDecoder", canvas);
-      cvMoveWindow("VideoDecoder", 300, 300);
+      cvMoveWindow("VideoDecoder", 500, 500);
       resize(cv_frame, canvas, Size(vd_frame.cols >> 1, vd_frame.rows >> 1));
       imshow("OpenCV", canvas);
       int key_pressed = waitKey(frame_interval);
       if ((key_pressed & ((1 << 8) - 1)) == ' ') {
         printf("Stop displaying, but continue to decode for counting frames...\n");
         destroyWindow("VideoDecoder");
+        destroyWindow("OpenCV");
         display = false;
       }
     }
