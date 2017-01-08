@@ -7,11 +7,12 @@ target_link_libraries (video_decoder_jni avutil avformat avcodec swscale)
 
 include_directories (video_decoder_jni PUBLIC ${PROJECT_SOURCE_DIR}/include)
 include_directories (video_decoder_jni PUBLIC ${JAVA_HOME}/include)
+include_directories (video_decoder_jni PUBLIC /usr/include/ffmpeg)
 
 if (MSVC)
-	include_directories (video_decoder_jni PUBLIC ${JAVA_HOME}/include/windows)
+    include_directories (video_decoder_jni PUBLIC ${JAVA_HOME}/include/windows)
 else ()
-	include_directories (video_decoder_jni PUBLIC ${JAVA_HOME}/include/linux)
+    include_directories (video_decoder_jni PUBLIC ${JAVA_HOME}/include/linux)
 endif ()
 
 install (TARGETS video_decoder_jni DESTINATION lib)
